@@ -1,10 +1,10 @@
 import argparse
 
+
 class ArgParser:
 
     def __init__(self):
         pass
-
 
     def parse_args(self):
         parser = argparse.ArgumentParser(description='A todo list for your command line')
