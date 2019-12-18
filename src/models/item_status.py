@@ -1,0 +1,2 @@
+COMPLETED = 'Completed'
+INCOMPLETE = 'Incomplete'
