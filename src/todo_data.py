@@ -1,5 +1,5 @@
 import json
-
+from models import todo_list
 
 class TodoData:
 
@@ -10,10 +10,10 @@ class TodoData:
 
     def create_todo(self, todo_name):
         todos = self.get_all_todos()
-        new_todo = {'title': todo_name, 'todos':[]}
+        new_todo = todo_list.TodoList(todo_name, True, [])
         todos.append(new_todo)
         with open(self._todoFileLocation, 'w') as file:
-            json.dump(todos, file)
+            json.dump(obj=todos, default=lambda o: o.__dict__, fp=file)
 
     def get_all_todos(self):
         with open(self._todoFileLocation) as file:
