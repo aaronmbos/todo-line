@@ -6,8 +6,8 @@ class TodoList:
         self._title = title
         self._items = items
         self._is_active = is_active
-        self._creation_date_time = datetime.datetime.now()
-        self._modified_date_time = datetime.datetime.now()
+        self._creation_date_time = str(datetime.datetime.now())
+        self._modified_date_time = str(datetime.datetime.now())
 
     @property
     def title(self):

@@ -10,7 +10,7 @@ class TodoData:
 
     def create_todo(self, todo_name):
         todos = self.get_all_todos()
-        new_todo = todo_list.TodoList(todo_name, True, [])
+        new_todo = todo_list.TodoList(todo_name, False, [])
         todos.append(new_todo)
         with open(self._todoFileLocation, 'w') as file:
             json.dump(obj=todos, default=lambda o: o.__dict__, fp=file)
