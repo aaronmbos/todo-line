@@ -9,9 +9,14 @@ class TodoProcessor:
     def create_new_todo(self, todo_name):
         self._todo_data.create_todo(todo_name)
 
+    def add_todo_item(self, todo_item_desc):
+        self._todo_data.add_todo_item(todo_item_desc)
+
     def process_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
+        elif args.add:
+            self.add_todo_item(args.add)
         elif args.rem:
             pass
         else:
