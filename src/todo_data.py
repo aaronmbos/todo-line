@@ -1,6 +1,4 @@
 import json
-from models import todo_list
-from models import todo_item
 import datetime
 
 class TodoData:
