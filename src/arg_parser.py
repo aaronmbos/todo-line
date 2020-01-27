@@ -3,7 +3,7 @@ import argparse
 
 class ArgParser:
 
-    def __init__(self):
+    def __init__(self): 
         pass
 
     def parse_args(self):
@@ -19,4 +19,5 @@ class ArgParser:
         parser.add_argument('-t', '--title', help='Title of the todo list')
         parser.add_argument('-d', '--desc', help='Todo list item description')
         parser.add_argument('-i', '--index', help='Zero based list item index')
+        parser.add_argument('-l', '--list', help='List items in active todo list')
         return parser.parse_args()

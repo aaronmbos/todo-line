@@ -12,6 +12,9 @@ class TodoProcessor:
     def add_todo_item(self, todo_item_desc):
         self._todo_data.add_todo_item(todo_item_desc)
 
+    def list_items(self):
+        self._todo_data.get_active_list_items()
+
     def process_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
@@ -19,5 +22,7 @@ class TodoProcessor:
             self.add_todo_item(args.add)
         elif args.rem:
             pass
+        elif args.list or args.l:
+            self.list_items()
         else:
             pass
