@@ -10,7 +10,8 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["todo","--new","Test List"]
+            //"args": ["todo","--new","Test List"]
+            "args": ["todo","-l"]
         }
     ]
 }

@@ -33,9 +33,31 @@ class TodoData:
             if todo['is_active']:
                 return todo['items']
 
+    def get_active_todo(self):
+        for todo in self.get_all_todos():
+            if todo['is_active']:
+                return todo
+
     def get_all_todos(self):
         with open(self._todoFileLocation) as file:
             return json.load(file)
+
+    def check_todo_item(self, item_idx):
+        all_todos = self.get_all_todos()
+        updated_item = None
+        
+        for _todo in all_todos:
+            if _todo['is_active']:
+                for index, _item in enumerate(_todo['items']):
+                    if index == item_idx:
+                        _item['status'] = 'completed'
+                        updated_item = _item
+                        break
+                _todo['date_mod'] = str(datetime.datetime.now())
+                break
+
+        self.write_todos(all_todos)
+        return updated_item
 
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:

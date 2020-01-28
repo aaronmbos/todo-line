@@ -16,6 +16,7 @@ class ArgParser:
         parser.add_argument('--ins', help='Insert a todo item to list')
         parser.add_argument('--upd', help='Update a todo item in list')
         parser.add_argument('--rem', help='Remove an item from list')
+        parser.add_argument('--ch', help='Check an item off list based on order')
         parser.add_argument('-t', '--title', help='Title of the todo list')
         parser.add_argument('-d', '--desc', help='Todo list item description')
         parser.add_argument('-i', '--index', help='Zero based list item index')
