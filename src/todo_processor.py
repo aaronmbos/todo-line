@@ -7,13 +7,19 @@ class TodoProcessor:
         self._todo_data = self._factory.create_todo_data()
 
     def create_new_todo(self, todo_name):
-        self._todo_data.create_todo(todo_name)
-        print(f'Todo created successfully!')
+        if self.validate_todo(todo_name):
+            self._todo_data.create_todo(todo_name)
+            print(f'\nTodo created successfully!')
+        else:
+            print('Todo name must be greater than 0 and less than 100 chars')
 
     def add_todo_item(self, todo_item_desc):
-        self._todo_data.add_todo_item(todo_item_desc)
-        print(f'\nItem added successfully!')
-        self.list_items()
+        if self.validate_todo_item(todo_item_desc):
+            self._todo_data.add_todo_item(todo_item_desc)
+            print(f'\nItem added successfully!')
+            self.list_items()
+        else:
+            print('Todo item description must be greater than 0 and less than 100 chars')
 
     def list_items(self):
         _todo = self._todo_data.get_active_todo()
@@ -33,28 +39,38 @@ class TodoProcessor:
             return False
         return True
 
+    def check_todo_item(self, rawArg):
+        try:
+            _item_idx = int(rawArg) - 1
+            _item = self._todo_data.update_todo_item_status(_item_idx, 'completed')
+            if _item:
+                print(f'{rawArg}. {_item["desc"]} is completed')
+            else:
+                print(f'Unable to complete requested item: {rawArg}')
+        except ValueError:
+            print('Argument with ch command must be an integer')
+
+    def uncheck_todo_item(self, rawArg):
+        try:
+            _item_idx = int(rawArg) - 1
+            _item = self._todo_data.update_todo_item_status(_item_idx, 'incomplete')
+            if _item:
+                print(f'{rawArg}. {_item["desc"]} is marked incomplete')
+            else:
+                print(f'Unable to mark requested item incomplete: {rawArg}')
+        except ValueError:
+            print('Argument with ch command must be an integer')
+
     def process_todo(self, args):
         if args.new:
-            if self.validate_todo(args.new):
-                self.create_new_todo(args.new)
-            else:
-                print('Todo name must be greater than 0 and less than 100 chars')
+            self.create_new_todo(args.new)
         elif args.add:
-            if self.validate_todo_item(args.add):
-                self.add_todo_item(args.add)
-            else:
-                print('Todo item description must be greater than 0 and less than 100 chars')
-        elif args.ch:
-            try:
-                _item_idx = int(args.ch) - 1
-                _item = self._todo_data.check_todo_item(_item_idx)
-                if _item:
-                    print(f'{args.ch}. {_item["desc"]} is completed')
-                else:
-                    print(f'Unable to complete requested item: {args.ch}')
-            except ValueError:
-                print('Argument with ch command must be an integer')
-        elif args.rem:
+            self.add_todo_item(args.add)
+        elif args.check:
+            self.check_todo_item(args.check)
+        elif args.uncheck:
+            self.uncheck_todo_item(args.uncheck)
+        elif args.remove:
             pass
         elif args.list or args.l:
             self.list_items()

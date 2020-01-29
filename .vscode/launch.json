@@ -11,7 +11,8 @@
             "program": "${file}",
             "console": "integratedTerminal",
             //"args": ["todo","--new","Test List"]
-            "args": ["todo","-l"]
+            //"args": ["todo","-l"]
+            "args": ["todo", "--ch", "8"]
         }
     ]
 }
