@@ -42,7 +42,7 @@ class TodoData:
         with open(self._todoFileLocation) as file:
             return json.load(file)
 
-    def check_todo_item(self, item_idx):
+    def update_todo_item_status(self, item_idx, status):
         all_todos = self.get_all_todos()
         updated_item = None
         
@@ -50,7 +50,7 @@ class TodoData:
             if _todo['is_active']:
                 for index, _item in enumerate(_todo['items']):
                     if index == item_idx:
-                        _item['status'] = 'completed'
+                        _item['status'] = status
                         updated_item = _item
                         break
                 _todo['date_mod'] = str(datetime.datetime.now())
