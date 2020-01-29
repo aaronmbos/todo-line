@@ -8,8 +8,12 @@ class TodoProcessor:
 
     def create_new_todo(self, todo_name):
         if self.validate_todo(todo_name):
-            self._todo_data.create_todo(todo_name)
-            print(f'\nTodo created successfully!')
+            try:
+                self._todo_data.create_todo(todo_name)
+                print(f'\nTodo created successfully!')
+                self.list_todos()
+            except Exception as ex:
+                print(f'\n{str(ex)}\n')
         else:
             print('Todo name must be greater than 0 and less than 100 chars')
 
@@ -17,11 +21,27 @@ class TodoProcessor:
         if self.validate_todo_item(todo_item_desc):
             self._todo_data.add_todo_item(todo_item_desc)
             print(f'\nItem added successfully!')
-            self.list_items()
+            self.list_todo_items()
         else:
             print('Todo item description must be greater than 0 and less than 100 chars')
 
-    def list_items(self):
+    def get_list(self, list_type):
+        if list_type == 'items' or list_type == 'item':
+            self.list_todo_items()
+        elif list_type == 'todos' or list_type == 'todo':
+            self.list_todos()
+        else:
+            pass
+
+    def list_todos(self):
+        _todos = self._todo_data.get_all_todos()
+        formatted_todos = f'\n'
+        for idx, _todo in enumerate(_todos):
+            formatted_todos += f'{idx + 1}. {_todo["title"]}{"*" if _todo["is_active"] else ""}\n'
+        
+        print(formatted_todos)
+
+    def list_todo_items(self):
         _todo = self._todo_data.get_active_todo()
         formatted_items = f'\nItems in {_todo["title"]}:\n'
         for idx, _item in enumerate(_todo['items']):
@@ -72,7 +92,7 @@ class TodoProcessor:
             self.uncheck_todo_item(args.uncheck)
         elif args.remove:
             pass
-        elif args.list or args.l:
-            self.list_items()
+        elif args.list:
+            self.get_list(args.list)
         else:
             pass
