@@ -31,7 +31,7 @@ class TodoProcessor:
         elif list_type == 'todos' or list_type == 'todo':
             self.list_todos()
         else:
-            pass
+            print(f'{list_type} is not a recognized list type')
 
     def list_todos(self):
         _todos = self._todo_data.get_all_todos()
