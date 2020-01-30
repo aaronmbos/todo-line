@@ -11,7 +11,7 @@ class ArgParser:
         parser.add_argument('todo', default='todo')
         parser.add_argument('--new', help='Create a new todo list')
         parser.add_argument('--delete', help='Delete a todo list')
-        parser.add_argument('--activate', help='Set active todo list')
+        parser.add_argument('--checkout', help='Checkout todo list')
         parser.add_argument('--add', help='Add a todo item to list')
         parser.add_argument('--insert', help='Insert a todo item to list')
         parser.add_argument('--update', help='Update a todo item in list')

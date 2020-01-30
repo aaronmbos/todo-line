@@ -55,9 +55,26 @@ class TodoData:
                         break
                 _todo['date_mod'] = str(datetime.datetime.now())
                 break
-
-        self.write_todos(all_todos)
+        # Only write to file if we updated item
+        if updated_item:
+            self.write_todos(all_todos)
         return updated_item
+
+    def checkout_todo(self, idx):
+        all_todos = self.get_all_todos()
+        checkedout_todo = None
+        
+        for index, _todo in enumerate(all_todos):
+            if index == idx:
+                _todo['is_active'] = True
+                checkedout_todo = _todo
+            else:
+                _todo['is_active'] = False
+        
+        # Only write to file if a todo was able to be checked out
+        if checkedout_todo:
+            self.write_todos(all_todos)
+        return checkedout_todo
 
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:

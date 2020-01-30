@@ -81,6 +81,17 @@ class TodoProcessor:
         except ValueError:
             print('Argument with ch command must be an integer')
 
+    def checkout_todo(self, rawIdx):
+        try:
+            idx = int(rawIdx) - 1
+            _todo = self._todo_data.checkout_todo(idx)
+            if _todo:
+                print(f'{_todo["title"]} checked out successfully')
+            else:
+                print(f'Unable to checkout todo number {rawIdx}')
+        except ValueError:
+            print('Argument with checkout command must be an integer')
+
     def process_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
@@ -88,6 +99,8 @@ class TodoProcessor:
             self.add_todo_item(args.add)
         elif args.check:
             self.check_todo_item(args.check)
+        elif args.checkout:
+            self.checkout_todo(args.checkout)
         elif args.uncheck:
             self.uncheck_todo_item(args.uncheck)
         elif args.remove:
