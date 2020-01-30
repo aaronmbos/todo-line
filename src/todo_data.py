@@ -76,6 +76,23 @@ class TodoData:
             self.write_todos(all_todos)
         return checkedout_todo
 
+    def delete_todo(self, idx):
+        all_todos = self.get_all_todos()
+        del all_todos[idx]
+        self.write_todos(all_todos)
+        
+        return True
+
+    def delete_todo_item(self, idx):
+        all_todos = self.get_all_todos()
+        for todo in all_todos:
+            if todo['is_active']:
+                del todo['items'][idx]
+                break
+        
+        self.write_todos(all_todos)
+        return True
+
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:
             json.dump(todos, fp=file)
