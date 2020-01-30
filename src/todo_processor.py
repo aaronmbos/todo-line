@@ -34,18 +34,18 @@ class TodoProcessor:
             print(f'{list_type} is not a recognized list type')
 
     def list_todos(self):
-        _todos = self._todo_data.get_all_todos()
+        todos = self._todo_data.get_all_todos()
         formatted_todos = f'\n'
-        for idx, _todo in enumerate(_todos):
-            formatted_todos += f'{idx + 1}. {_todo["title"]}{"*" if _todo["is_active"] else ""}\n'
+        for idx, todo in enumerate(todos):
+            formatted_todos += f'{idx + 1}. {todo["title"]}{"*" if todo["is_active"] else ""}\n'
         
         print(formatted_todos)
 
     def list_todo_items(self):
-        _todo = self._todo_data.get_active_todo()
-        formatted_items = f'\nItems in {_todo["title"]}:\n'
-        for idx, _item in enumerate(_todo['items']):
-            formatted_items += f'{idx + 1}. [ {"x" if _item["status"] == "completed" else "o"} ] {_item["desc"]}\n'
+        todo = self._todo_data.get_active_todo()
+        formatted_items = f'\nItems in {todo["title"]}:\n'
+        for idx, item in enumerate(todo['items']):
+            formatted_items += f'{idx + 1}. [ {"x" if item["status"] == "completed" else "o"} ] {item["desc"]}\n'
         
         print(formatted_items)
 
@@ -61,10 +61,10 @@ class TodoProcessor:
 
     def check_todo_item(self, rawArg):
         try:
-            _item_idx = int(rawArg) - 1
-            _item = self._todo_data.update_todo_item_status(_item_idx, 'completed')
-            if _item:
-                print(f'{rawArg}. {_item["desc"]} is completed')
+            item_idx = int(rawArg) - 1
+            item = self._todo_data.update_todo_item_status(item_idx, 'completed')
+            if item:
+                print(f'{rawArg}. {item["desc"]} is completed')
             else:
                 print(f'Unable to complete requested item: {rawArg}')
         except ValueError:
@@ -72,10 +72,10 @@ class TodoProcessor:
 
     def uncheck_todo_item(self, rawArg):
         try:
-            _item_idx = int(rawArg) - 1
-            _item = self._todo_data.update_todo_item_status(_item_idx, 'incomplete')
-            if _item:
-                print(f'{rawArg}. {_item["desc"]} is marked incomplete')
+            item_idx = int(rawArg) - 1
+            item = self._todo_data.update_todo_item_status(item_idx, 'incomplete')
+            if item:
+                print(f'{rawArg}. {item["desc"]} is marked incomplete')
             else:
                 print(f'Unable to mark requested item incomplete: {rawArg}')
         except ValueError:
@@ -84,14 +84,34 @@ class TodoProcessor:
     def checkout_todo(self, rawIdx):
         try:
             idx = int(rawIdx) - 1
-            _todo = self._todo_data.checkout_todo(idx)
-            if _todo:
-                print(f'{_todo["title"]} checked out successfully')
+            todo = self._todo_data.checkout_todo(idx)
+            if todo:
+                print(f'{todo["title"]} checked out successfully')
             else:
                 print(f'Unable to checkout todo number {rawIdx}')
         except ValueError:
             print('Argument with checkout command must be an integer')
+    
+    def delete(self, delete_Arg, raw_Idx):
+        is_deleted = False
+        delete_type = ''
+        try:
+            idx = int(raw_Idx) - 1
+            if delete_Arg.lower() == 'todo' or delete_Arg.lower() == 'todos':
+                delete_type = 'todo'
+                is_deleted = self._todo_data.delete_todo(idx)
+            elif delete_Arg.lower() == 'item' or delete_Arg.lower() == 'items':
+                delete_type = 'item'
+                is_deleted = self._todo_data.delete_todo_item(idx)
+            else:
+                print(f'Unrecognized delete argument: {delete_Arg}')
+        except ValueError:
+            print('Index argument must be an integer')
 
+        if is_deleted:
+            print(f'{delete_type} deleted successfully')
+        else:
+            print(f'Unable to delete {delete_type}')
     def process_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
@@ -103,8 +123,10 @@ class TodoProcessor:
             self.checkout_todo(args.checkout)
         elif args.uncheck:
             self.uncheck_todo_item(args.uncheck)
-        elif args.remove:
-            pass
+        elif args.delete:
+            if not args.index:
+                print('Unable to process request: --index is a required argument with delete command')
+            self.delete(args.delete, args.index)
         elif args.list:
             self.get_list(args.list)
         else:

@@ -20,6 +20,6 @@ class ArgParser:
         parser.add_argument('--uncheck', help='Uncheck an item on list based on order')
         parser.add_argument('-t', '--title', help='Title of the todo list')
         parser.add_argument('-d', '--desc', help='Todo list item description')
-        parser.add_argument('-i', '--index', help='Zero based list item index')
-        parser.add_argument('-l', '--list', help='List items in active todo list or all todo lists')
+        parser.add_argument('--index', help='Zero based list item index')
+        parser.add_argument('--list', help='List items in active todo list or all todo lists')
         return parser.parse_args()
