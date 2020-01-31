@@ -105,13 +105,14 @@ class TodoProcessor:
                 is_deleted = self._todo_data.delete_todo_item(idx)
             else:
                 print(f'Unrecognized delete argument: {delete_Arg}')
+                return
         except ValueError:
             print('Index argument must be an integer')
 
         if is_deleted:
             print(f'{delete_type} deleted successfully')
         else:
-            print(f'Unable to delete {delete_type}')
+            print(f'Unable to delete {delete_type} at index {raw_Idx}')
     def process_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
