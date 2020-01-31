@@ -78,20 +78,27 @@ class TodoData:
 
     def delete_todo(self, idx):
         all_todos = self.get_all_todos()
-        del all_todos[idx]
-        self.write_todos(all_todos)
-        
-        return True
+        try:
+            del all_todos[idx]
+            self.write_todos(all_todos)
+            return True
+        except Exception:
+            return False
 
     def delete_todo_item(self, idx):
         all_todos = self.get_all_todos()
+        is_deleted = False
         for todo in all_todos:
             if todo['is_active']:
-                del todo['items'][idx]
+                try:
+                    del todo['items'][idx]
+                    is_deleted = True
+                except Exception:
+                    is_deleted = False
                 break
         
         self.write_todos(all_todos)
-        return True
+        return is_deleted
 
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:
