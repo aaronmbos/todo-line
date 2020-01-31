@@ -170,9 +170,9 @@ class TodoProcessor:
         elif args.list:
             self.get_list(args.list)
         elif args.update:
-            if not args.index or not args.title:
-                print('Unable to process request: --index and --title are required arguments with update command')
+            if not args.index or not args.value:
+                print('Unable to process request: --index and --value are required arguments with update command')
                 return
-            self.update(args.update, args.index, args.title)    
+            self.update(args.update, args.index, args.value)    
         else:
             pass

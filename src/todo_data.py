@@ -105,10 +105,20 @@ class TodoData:
         try:
             all_todos[idx]['title'] = title
             self.write_todos(all_todos)
-            return all_todos[idx]
-
+            return True
         except IndexError:
-            return
+            return False
+
+    def update_todo_item(self, idx, desc):
+        all_todos = self.get_all_todos()
+        for todo in all_todos:
+            if todo['is_active']:
+                try:
+                    todo['items'][idx]['desc'] = desc
+                except IndexError:
+                    return False
+        self.write_todos(all_todos)
+        return True
 
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:
