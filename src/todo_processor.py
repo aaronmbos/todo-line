@@ -1,6 +1,7 @@
 from todo_data import TodoData
 
 class TodoProcessor:
+    _todo_validation_message = 'Todo title must be greater than 0 and less than 100 chars'
 
     def __init__(self, factory):
         self._factory = factory
@@ -15,7 +16,7 @@ class TodoProcessor:
             except Exception as ex:
                 print(f'\n{str(ex)}\n')
         else:
-            print('Todo name must be greater than 0 and less than 100 chars')
+            print(self._todo_validation_message)
 
     def add_todo_item(self, todo_item_desc):
         if self.validate_todo_item(todo_item_desc):
@@ -26,9 +27,9 @@ class TodoProcessor:
             print('Todo item description must be greater than 0 and less than 100 chars')
 
     def get_list(self, list_type):
-        if list_type == 'items' or list_type == 'item':
+        if self.is_item_request(list_type):
             self.list_todo_items()
-        elif list_type == 'todos' or list_type == 'todo':
+        elif self.is_todo_request(list_type):
             self.list_todos()
         else:
             print(f'{list_type} is not a recognized list type')
@@ -97,22 +98,47 @@ class TodoProcessor:
         delete_type = ''
         try:
             idx = int(raw_Idx) - 1
-            if delete_Arg.lower() == 'todo' or delete_Arg.lower() == 'todos':
+            if self.is_todo_request(delete_Arg):
                 delete_type = 'todo'
                 is_deleted = self._todo_data.delete_todo(idx)
-            elif delete_Arg.lower() == 'item' or delete_Arg.lower() == 'items':
+            elif self.is_item_request(delete_Arg):
                 delete_type = 'item'
                 is_deleted = self._todo_data.delete_todo_item(idx)
             else:
                 print(f'Unrecognized delete argument: {delete_Arg}')
                 return
-        except ValueError:
+        except TypeError:
             print('Index argument must be an integer')
 
         if is_deleted:
             print(f'{delete_type} deleted successfully')
         else:
             print(f'Unable to delete {delete_type} at index {raw_Idx}')
+    
+    def update(self, update_arg, idx_arg, content_arg):
+        try:
+            index = int(idx_arg) - 1
+            if self.is_todo_request(update_arg):
+                if self.validate_todo(content_arg):
+                    if self._todo_data.update_todo(index, content_arg):
+                        print('Todo updated successfully')
+                    else:
+                        print(f'Unable to update todo at index: {idx_arg}')
+                else:
+                    print(self._todo_validation_message)
+        except TypeError:
+            print('Index argument must be an integer')
+
+    def is_todo_request(self, req_arg):
+        if req_arg.lower() == 'todo' or req_arg.lower() == 'todos':
+            return True 
+        return False
+
+    def is_item_request(self, req_arg):
+        if req_arg.lower() == 'item' or req_arg.lower() == 'items':
+            return True 
+        return False
+
     def process_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
@@ -127,8 +153,14 @@ class TodoProcessor:
         elif args.delete:
             if not args.index:
                 print('Unable to process request: --index is a required argument with delete command')
+                return
             self.delete(args.delete, args.index)
         elif args.list:
             self.get_list(args.list)
+        elif args.update:
+            if not args.index or not args.title:
+                print('Unable to process request: --index and --title are required arguments with update command')
+                return
+            self.update(args.update, args.index, args.title)    
         else:
             pass
