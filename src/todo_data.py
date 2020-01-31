@@ -100,6 +100,16 @@ class TodoData:
         self.write_todos(all_todos)
         return is_deleted
 
+    def update_todo(self, idx, title):
+        all_todos = self.get_all_todos()
+        try:
+            all_todos[idx]['title'] = title
+            self.write_todos(all_todos)
+            return all_todos[idx]
+
+        except IndexError:
+            return
+
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:
             json.dump(todos, fp=file)
