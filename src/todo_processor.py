@@ -2,6 +2,7 @@ from todo_data import TodoData
 
 class TodoProcessor:
     _todo_validation_message = 'Todo title must be greater than 0 and less than 100 chars'
+    _todo_item_validation_message = 'Todo item description must be greater than 0 and less than 100 chars'
 
     def __init__(self, factory):
         self._factory = factory
@@ -24,7 +25,7 @@ class TodoProcessor:
             print(f'\nItem added successfully!')
             self.list_todo_items()
         else:
-            print('Todo item description must be greater than 0 and less than 100 chars')
+            print(self._todo_item_validation_message)
 
     def get_list(self, list_type):
         if self.is_item_request(list_type):
@@ -126,6 +127,17 @@ class TodoProcessor:
                         print(f'Unable to update todo at index: {idx_arg}')
                 else:
                     print(self._todo_validation_message)
+            elif self.is_item_request(update_arg):
+                if self.validate_todo_item(content_arg):
+                    if self._todo_data.update_todo_item(index, content_arg):
+                        print('Todo item updated successfully')
+                    else:
+                        print(f'Unable to update todo item at index: {idx_arg}')
+                else:
+                    print(self._todo_item_validation_message)
+            else:
+                print('Unable to process request due to unrecognized update argument')
+                return
         except TypeError:
             print('Index argument must be an integer')
 
