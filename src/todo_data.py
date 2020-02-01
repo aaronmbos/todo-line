@@ -116,8 +116,31 @@ class TodoData:
                     todo['date_mod'] = str(datetime.datetime.now())
                 except IndexError:
                     return False
+                break
         self.write_todos(all_todos)
         return True
+
+    def insert_todo(self, idx, title):
+        all_todos = self.get_all_todos()
+        try:
+            all_todos.insert(idx, {'title': title, 'items': [], 'is_active': len(all_todos) == 0, 'date_created': str(datetime.datetime.now()), 'date_mod': str(datetime.datetime.now())})
+            self.write_todos(all_todos)
+            return True
+        except IndexError:
+            return False
+
+    def insert_todo_item(self, idx, desc):
+        all_todos = self.get_all_todos()
+        for todo in all_todos:
+            if todo['is_active']:
+                try:
+                    todo['items'].insert(idx, {'desc': desc, 'status': 'incomplete', 'date_created': str(datetime.datetime.now())})
+                except IndexError:
+                    return False
+                break
+        self.write_todos(all_todos)
+        return True
+
 
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:

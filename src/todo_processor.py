@@ -3,6 +3,7 @@ from todo_data import TodoData
 class TodoProcessor:
     _todo_validation_message = 'Todo title must be greater than 0 and less than 100 chars'
     _todo_item_validation_message = 'Todo item description must be greater than 0 and less than 100 chars'
+    _index_validation_message = 'Index argument must be an integer'
 
     def __init__(self, factory):
         self._factory = factory
@@ -108,8 +109,8 @@ class TodoProcessor:
             else:
                 print(f'Unrecognized delete argument: {delete_Arg}')
                 return
-        except TypeError:
-            print('Index argument must be an integer')
+        except ValueError:
+            print(self._index_validation_message)
 
         if is_deleted:
             print(f'{delete_type} deleted successfully')
@@ -138,8 +139,8 @@ class TodoProcessor:
             else:
                 print('Unable to process request due to unrecognized update argument')
                 return
-        except TypeError:
-            print('Index argument must be an integer')
+        except ValueError:
+            print(self._index_validation_message)
 
     def is_todo_request(self, req_arg):
         if req_arg.lower() == 'todo' or req_arg.lower() == 'todos':
@@ -150,6 +151,24 @@ class TodoProcessor:
         if req_arg.lower() == 'item' or req_arg.lower() == 'items':
             return True 
         return False
+
+    def insert(self, insert_arg, idx_arg, value_arg):
+        try:
+            index = int(idx_arg) - 1
+            if self.is_todo_request(insert_arg):
+                if self._todo_data.insert_todo(index, value_arg):
+                    print(f'Todo inserted at index: {idx_arg}')
+                else:
+                    print(f'Unable to insert todo at index: {idx_arg}')
+            elif self.is_item_request(insert_arg):
+                if self._todo_data.insert_todo_item(index, value_arg):
+                    print(f'Todo item inserted at index: {idx_arg}')
+                else:
+                    print(f'Unable to insert todo item at index: {idx_arg}')
+            else:
+                print('Unable to process request due to unrecognized insert argument')
+        except ValueError:
+            print(self._index_validation_message)
 
     def process_todo(self, args):
         if args.new:
@@ -167,6 +186,11 @@ class TodoProcessor:
                 print('Unable to process request: --index is a required argument with delete command')
                 return
             self.delete(args.delete, args.index)
+        elif args.insert:
+            if not args.index or not args.value:
+                print('Unable to process request: --index and --value are required arguments with update command')
+                return
+            self.insert(args.insert, args.index, args.value)
         elif args.list:
             self.get_list(args.list)
         elif args.update:
