@@ -12,7 +12,7 @@
             "console": "integratedTerminal",
             //"args": ["todo","--new","Test List"]
             //"args": ["todo","-l"]
-            "args": ["todo", "--ch", "8"]
+            "args": ["todo", "--insert", "todo", "--index", "2", "--value", "Work List"]
         }
     ]
 }
