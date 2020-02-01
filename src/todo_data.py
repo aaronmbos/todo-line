@@ -28,11 +28,6 @@ class TodoData:
         todos.append(new_todo)
         self.write_todos(todos)
 
-    def get_active_list_items(self):
-        for todo in self.get_all_todos():
-            if todo['is_active']:
-                return todo['items']
-
     def get_active_todo(self):
         for todo in self.get_all_todos():
             if todo['is_active']:
@@ -46,14 +41,14 @@ class TodoData:
         all_todos = self.get_all_todos()
         updated_item = None
         
-        for _todo in all_todos:
-            if _todo['is_active']:
-                for index, _item in enumerate(_todo['items']):
+        for todo in all_todos:
+            if todo['is_active']:
+                for index, _item in enumerate(todo['items']):
                     if index == item_idx:
                         _item['status'] = status
                         updated_item = _item
                         break
-                _todo['date_mod'] = str(datetime.datetime.now())
+                todo['date_mod'] = str(datetime.datetime.now())
                 break
         # Only write to file if we updated item
         if updated_item:
@@ -92,6 +87,7 @@ class TodoData:
             if todo['is_active']:
                 try:
                     del todo['items'][idx]
+                    todo['date_mod'] = str(datetime.datetime.now())
                     is_deleted = True
                 except Exception:
                     is_deleted = False
@@ -103,7 +99,9 @@ class TodoData:
     def update_todo(self, idx, title):
         all_todos = self.get_all_todos()
         try:
-            all_todos[idx]['title'] = title
+            todo = all_todos[idx]
+            todo['title'] = title
+            todo['date_mod'] = str(datetime.datetime.now())
             self.write_todos(all_todos)
             return True
         except IndexError:
@@ -115,6 +113,7 @@ class TodoData:
             if todo['is_active']:
                 try:
                     todo['items'][idx]['desc'] = desc
+                    todo['date_mod'] = str(datetime.datetime.now())
                 except IndexError:
                     return False
         self.write_todos(all_todos)
