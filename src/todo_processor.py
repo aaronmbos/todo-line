@@ -48,8 +48,7 @@ class TodoProcessor:
         todo = self._todo_data.get_active_todo()
         formatted_items = f'\nItems in {todo["title"]}:\n'
         for idx, item in enumerate(todo['items']):
-            formatted_items += f'{idx + 1}. [ {"x" if item["status"] == "completed" else "o"} ] {item["desc"]}\n'
-        
+            formatted_items += f'+---+\n| {"x" if item["status"] == "completed" else " "} |  {idx + 1}. {item["desc"]}\n+---+\n'
         print(formatted_items)
 
     def validate_todo(self, todo_name):
