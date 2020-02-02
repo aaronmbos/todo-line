@@ -1,7 +1,7 @@
 todo-line
 ======
 #### What is it?
-+ A simple todo command line application written in Python for MacOS and Windows.
++ A simple command line todo application written in Python for MacOS and Windows.
 
 #### How to use?
 + __Create a todo list__
