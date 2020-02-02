@@ -8,7 +8,6 @@ class ArgParser:
 
     def parse_args(self):
         parser = argparse.ArgumentParser(description='A todo list for your command line')
-        parser.add_argument('todo', default='todo')
         parser.add_argument('--new', help='Create a new todo list')
         parser.add_argument('--delete', help='Delete a todo list or item')
         parser.add_argument('--checkout', help='Checkout todo list')
