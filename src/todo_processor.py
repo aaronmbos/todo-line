@@ -13,17 +13,17 @@ class TodoProcessor:
         if self.validate_todo(todo_name):
             try:
                 self._todo_data.create_todo(todo_name)
-                print(f'\nTodo created successfully!')
+                print(f'Todo created successfully')
                 self.list_todos()
             except Exception as ex:
-                print(f'\n{str(ex)}\n')
+                print(f'{str(ex)}')
         else:
             print(self._todo_validation_message)
 
     def add_todo_item(self, todo_item_desc):
         if self.validate_todo_item(todo_item_desc):
             self._todo_data.add_todo_item(todo_item_desc)
-            print(f'\nItem added successfully!')
+            print(f'Item added successfully')
             self.list_todo_items()
         else:
             print(self._todo_item_validation_message)

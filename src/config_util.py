@@ -12,6 +12,8 @@ class ConfigUtil:
     def get_config_path(self):
         if os.name == 'posix':
             return f'{Path.home()}/Applications/todo-line/configs'
+        elif os.name == 'nt':
+            return "C:\\Program Files\\todo-line\\configs"
 
     def get_or_set_config(self):
         config_path = self.get_config_path()
