@@ -169,12 +169,16 @@ class TodoProcessor:
         except ValueError:
             print(self._index_validation_message)
 
-    def process_todo(self, args):
+    def process_new_todo(self, args):
         if args.new:
             self.create_new_todo(args.new)
-        elif args.add:
+
+    def process_add_todo_item(self, args):
+        if args.add:
             self.add_todo_item(args.add)
-        elif args.check:
+            
+    def process_todo(self, args):
+        if args.check:
             self.check_todo_item(args.check)
         elif args.checkout:
             self.checkout_todo(args.checkout)

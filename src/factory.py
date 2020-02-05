@@ -21,7 +21,7 @@ class Factory:
     
     def create_arg_parser(self):
         if (self._arg_parser == None):
-            self._arg_parser = ArgParser()
+            self._arg_parser = ArgParser(self)
             return self._arg_parser
         else:
             return self._arg_parser
