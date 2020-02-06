@@ -114,7 +114,7 @@ class TodoProcessor:
         if is_deleted:
             print(f'{delete_type} deleted successfully')
         else:
-            print(f'Unable to delete {delete_type} at index {raw_Idx}')
+            print(f'Unable to delete {delete_type} at place {raw_Idx}')
     
     def update(self, update_arg, idx_arg, content_arg):
         try:
@@ -124,7 +124,7 @@ class TodoProcessor:
                     if self._todo_data.update_todo(index, content_arg):
                         print('Todo updated successfully')
                     else:
-                        print(f'Unable to update todo at index: {idx_arg}')
+                        print(f'Unable to update todo at place: {idx_arg}')
                 else:
                     print(self._todo_validation_message)
             elif self.is_item_request(update_arg):
@@ -132,7 +132,7 @@ class TodoProcessor:
                     if self._todo_data.update_todo_item(index, content_arg):
                         print('Todo item updated successfully')
                     else:
-                        print(f'Unable to update todo item at index: {idx_arg}')
+                        print(f'Unable to update todo item at place: {idx_arg}')
                 else:
                     print(self._todo_item_validation_message)
             else:
@@ -156,50 +156,53 @@ class TodoProcessor:
             index = int(idx_arg) - 1
             if self.is_todo_request(insert_arg):
                 if self._todo_data.insert_todo(index, value_arg):
-                    print(f'Todo inserted at index: {idx_arg}')
+                    print(f'Todo inserted at place: {idx_arg}')
                 else:
-                    print(f'Unable to insert todo at index: {idx_arg}')
+                    print(f'Unable to insert todo at place: {idx_arg}')
             elif self.is_item_request(insert_arg):
                 if self._todo_data.insert_todo_item(index, value_arg):
-                    print(f'Todo item inserted at index: {idx_arg}')
+                    print(f'Todo item inserted at place: {idx_arg}')
                 else:
-                    print(f'Unable to insert todo item at index: {idx_arg}')
+                    print(f'Unable to insert todo item at place: {idx_arg}')
             else:
                 print('Unable to process request due to unrecognized insert argument')
         except ValueError:
             print(self._index_validation_message)
 
     def process_new_todo(self, args):
-        if args.new:
-            self.create_new_todo(args.new)
+        self.create_new_todo(args.new)
 
     def process_add_todo_item(self, args):
-        if args.add:
-            self.add_todo_item(args.add)
+        self.add_todo_item(args.add)
+
+    def process_check_todo_item(self, args):
+        self.check_todo_item(args.check)
+
+    def process_get_list(self, args):
+        self.get_list(args.list)
+
+    def process_checkout(self, args):
+        self.checkout_todo(args.checkout)
+
+    def process_uncheck(self, args):
+        self.uncheck_todo_item(args.uncheck)
+
+    def process_delete(self, args):
+        if args.delete:
+            if not args.place:
+                print('Unable to process request: -p/--place is a required argument with delete command')
+                return
+            self.delete(args.delete, args.place)
+
+    def process_insert(self, args):
+        if not args.place or not args.value:
+            print('Unable to process request: --index and --value are required arguments with update command')
+            return
+        self.insert(args.insert, args.place, args.value)
+
+    def process_update(self, args):
+        if not args.place or not args.value:
+            print('Unable to process request: --index and --value are required arguments with update command')
+            return
+        self.update(args.update, args.place, args.value) 
             
-    def process_todo(self, args):
-        if args.check:
-            self.check_todo_item(args.check)
-        elif args.checkout:
-            self.checkout_todo(args.checkout)
-        elif args.uncheck:
-            self.uncheck_todo_item(args.uncheck)
-        elif args.delete:
-            if not args.index:
-                print('Unable to process request: --index is a required argument with delete command')
-                return
-            self.delete(args.delete, args.index)
-        elif args.insert:
-            if not args.index or not args.value:
-                print('Unable to process request: --index and --value are required arguments with update command')
-                return
-            self.insert(args.insert, args.index, args.value)
-        elif args.list:
-            self.get_list(args.list)
-        elif args.update:
-            if not args.index or not args.value:
-                print('Unable to process request: --index and --value are required arguments with update command')
-                return
-            self.update(args.update, args.index, args.value)    
-        else:
-            pass
