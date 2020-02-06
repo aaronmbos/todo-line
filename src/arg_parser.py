@@ -12,6 +12,10 @@ class ArgParser:
 
     def parse_args(self):
         parser = argparse.ArgumentParser(description='A todo list for your command line')
+        self.add_all_subparsers(parser)
+        return parser.parse_args()
+    
+    def add_all_subparsers(self, parser):
         subparsers = parser.add_subparsers()
 
         new_cmd = subparsers.add_parser('new', help='Create a new todo list')
@@ -22,13 +26,35 @@ class ArgParser:
         add_cmd.add_argument('add')
         add_cmd.set_defaults(func=self._todo_processor.process_add_todo_item)
 
-        parser.add_argument('--delete', help='Delete a todo list or item. Require sub-argument(s): --index')
-        parser.add_argument('--checkout', help='Checkout todo list')
-        parser.add_argument('--insert', help='Insert a todo list or item to list. Required sub-argument(s): --index, --value')
-        parser.add_argument('--update', help='Update a todo item in list. Required sub-argument(s): --index, --value')
-        parser.add_argument('--check', help='Check an item off list based on order')
-        parser.add_argument('--uncheck', help='Uncheck an item on list based on order')
-        parser.add_argument('--value', help='Sub-argument that can be used with other commands i.e. --update')
-        parser.add_argument('--index', help='One based index of todo list or item')
-        parser.add_argument('--list', help='List items in active todo list or all todo lists')
-        return parser.parse_args()
+        check_cmd = subparsers.add_parser('check', help='Check an item off list based on place')
+        check_cmd.add_argument('check')
+        check_cmd.set_defaults(func=self._todo_processor.process_check_todo_item)
+
+        list_cmd = subparsers.add_parser('list', help='List items in active todo list or all todo lists')
+        list_cmd.add_argument('list')
+        list_cmd.set_defaults(func=self._todo_processor.process_get_list)
+
+        checkout_cmd = subparsers.add_parser('checkout', help='Checkout todo list based on place')
+        checkout_cmd.add_argument('checkout')
+        checkout_cmd.set_defaults(func=self._todo_processor.process_checkout)
+
+        uncheck_cmd = subparsers.add_parser('uncheck', help='Uncheck an item on list based on order')
+        uncheck_cmd.add_argument('uncheck')
+        uncheck_cmd.set_defaults(func=self._todo_processor.process_uncheck)
+
+        delete_cmd = subparsers.add_parser('delete', help='Delete a todo list or item. Required argument(s): -p/--place')
+        delete_cmd.add_argument('delete')
+        delete_cmd.add_argument('-p', '--place', help='Argument corresponding to the place of an item in a todo list or a todo in all todos')
+        delete_cmd.set_defaults(func=self._todo_processor.process_delete)
+
+        insert_cmd = subparsers.add_parser('insert', help='Insert a todo list or item to list. Required argument(s): -p/--place, -v/--value')
+        insert_cmd.add_argument('insert')
+        insert_cmd.add_argument('-p', '--place', help='Argument corresponding to the place of an item in a todo list or a todo in all todos')
+        insert_cmd.add_argument('-v', '--value', help='Argument corresponding to the value or a todo or todo item')
+        insert_cmd.set_defaults(func=self._todo_processor.process_insert)
+
+        update_cmd = subparsers.add_parser('update', help='Update a todo item in list. Required argument(s): -p/--place, -v/--value')
+        update_cmd.add_argument('update')
+        update_cmd.add_argument('-p', '--place', help='Argument corresponding to the place of an item in a todo list or a todo in all todos')
+        update_cmd.add_argument('-v', '--value', help='Argument corresponding to the value or a todo or todo item')
+        update_cmd.set_defaults(func=self._todo_processor.process_update)
