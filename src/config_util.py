@@ -11,9 +11,9 @@ class ConfigUtil:
 
     def get_config_path(self):
         if os.name == 'posix':
-            return f'{Path.home()}/Applications/todo-line/configs'
+            return f'{Path.home()}/Applications/todo-line/configs/'
         elif os.name == 'nt':
-            return "C:\\Program Files\\todo-line\\configs"
+            return f"{Path.home()}\\todo-line\\configs\\"
 
     def get_or_set_config(self):
         config_path = self.get_config_path()
@@ -23,7 +23,7 @@ class ConfigUtil:
         return path.__str__()
 
     def get_config_setting(self, key):
-        with open(f'{self.get_config_path()}/{self._config_file_name}', 'r') as config_file:
+        with open(f'{self.get_config_path()}{self._config_file_name}', 'r') as config_file:
             json_config = json.load(config_file)
             # add exception handling if key isn't found
             return json_config[key]
