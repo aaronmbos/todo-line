@@ -38,18 +38,24 @@ class TodoProcessor:
 
     def list_todos(self):
         todos = self._todo_data.get_all_todos()
-        formatted_todos = f'\n'
-        for idx, todo in enumerate(todos):
-            formatted_todos += f'{idx + 1}. {todo["title"]}{"*" if todo["is_active"] else ""}\n'
-        
-        print(formatted_todos)
+        if len(todos) > 0:
+            formatted_todos = f'\n'
+            for idx, todo in enumerate(todos):
+                formatted_todos += f'{idx + 1}. {todo["title"]}{"*" if todo["is_active"] else ""}\n'
+            print(formatted_todos)
+        else:
+            print('There are no existing todo lists')
 
     def list_todo_items(self):
         todo = self._todo_data.get_active_todo()
-        formatted_items = f'\nItems in {todo["title"]}:\n'
-        for idx, item in enumerate(todo['items']):
-            formatted_items += f'[{"x" if item["status"] == "completed" else " "}] {idx + 1}. {item["desc"]}\n'
-        print(formatted_items)
+        if len(todo['items']) > 0:
+            formatted_items = f'\nItems in {todo["title"]}:\n'
+            for idx, item in enumerate(todo['items']):
+                formatted_items += f'[{"x" if item["status"] == "completed" else " "}] {idx + 1}. {item["desc"]}\n'
+            print(formatted_items)
+        else:
+            print(f'There are no items in {todo["title"]}')
+        
 
     def validate_todo(self, todo_name):
         if len(todo_name) == 0 or len(todo_name) > 100:
