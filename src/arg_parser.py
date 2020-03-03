@@ -24,6 +24,8 @@ class ArgParser:
 
         add_cmd = subparsers.add_parser('add', help='Add a todo item to list')
         add_cmd.add_argument('add')
+        add_cmd.add_argument('-s', '--sub')
+        add_cmd.add_argument('-p', '--place', type='int', help='Argument corresponding to the place of an item in a todo list or a todo in all todos')
         add_cmd.set_defaults(func=self._todo_processor.process_add_todo_item)
 
         check_cmd = subparsers.add_parser('check', help='Check an item off list based on place')
