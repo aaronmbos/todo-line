@@ -1,4 +1,5 @@
 from todo_data import TodoData
+import datetime
 
 class TodoProcessor:
     _todo_validation_message = 'Todo title must be greater than 0 and less than 100 chars'
@@ -175,11 +176,32 @@ class TodoProcessor:
         except ValueError:
             print(self._index_validation_message)
 
+    def add_sub_item(self, add_arg, place_arg):
+        if not place_arg:
+            print('-p/--place argument is required for adding sub items')
+        else:
+            all_todos = self._todo_data.get_all_todos()
+            for todo in all_todos:
+                if todo['is_active']:
+                    for index, item in enumerate(todo['items']):
+                        if index == place_arg - 1:
+                            if not item['sub_items']:
+                                item['sub_items'] = [add_arg]
+                            else:
+                                item['sub_items'].append(add_arg)
+                            break
+                    todo['date_mod'] = str(datetime.datetime.now())
+                    break
+            self._todo_data.write_todos(all_todos)
+
     def process_new_todo(self, args):
         self.create_new_todo(args.new)
 
     def process_add_todo_item(self, args):
-        self.add_todo_item(args.add)
+        if not args.sub:
+            self.add_todo_item(args.add)
+        else:
+            self.add_sub_item(args.add, args.place)
 
     def process_check_todo_item(self, args):
         self.check_todo_item(args.check)
