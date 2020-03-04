@@ -8,14 +8,15 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceRoot}/src/todo.py",
             "console": "integratedTerminal",
             //"args": ["todo","--new","Test List"]
             //"args": ["todo","-l"]
             //"args": ["todo", "--insert", "todo", "--index", "2", "--value", "Work List"]
             //"args": ["todo", "ls", "items"]
-            "args": ["add", "test", "--sub", "-p", "1"]
-            // "args": ["add", "test"]
+            "args": ["add", "test2", "--sub", "-p", "2"]
+            //"args": ["add", "testingtest"]
+            //"args": ["list", "items"]
         }
     ]
 }
