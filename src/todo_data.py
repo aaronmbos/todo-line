@@ -13,9 +13,21 @@ class TodoData:
         
         for todo in todos:
             if todo['is_active']:
-                todo['items'].append({'desc': todo_item_desc, 'status': 'incomplete', 'date_created': str(datetime.datetime.now())})
+                todo['items'].append({'desc': todo_item_desc, 'status': 'incomplete','sub_items': [], 'date_created': str(datetime.datetime.now())})
         
         self.write_todos(todos)
+
+    def add_todo_sub_item(self, todo_sub_item_desc, sub_place):
+        all_todos = self.get_all_todos()
+        for todo in all_todos:
+            if todo['is_active']:
+                for index, item in enumerate(todo['items']):
+                    if index == sub_place - 1:
+                        item['sub_items'].append({'desc': todo_sub_item_desc, 'status': 'incomplete','sub_items': [], 'date_created': str(datetime.datetime.now())})
+                        break
+                todo['date_mod'] = str(datetime.datetime.now())
+                break
+        self.write_todos(all_todos)
 
     def create_todo(self, todo_name):
         todos = self.get_all_todos()

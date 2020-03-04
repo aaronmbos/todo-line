@@ -53,6 +53,9 @@ class TodoProcessor:
             formatted_items = f'\nItems in {todo["title"]}:\n'
             for idx, item in enumerate(todo['items']):
                 formatted_items += f'[{"x" if item["status"] == "completed" else " "}] {idx + 1}. {item["desc"]}\n'
+                if len(item['sub_items']) > 0:
+                    for index, sub in enumerate(item['sub_items']):
+                        formatted_items += f'    [{"x" if sub["status"] == "completed" else " "}] {index + 1}. {sub["desc"]}\n'
             print(formatted_items)
         else:
             print(f'There are no items in {todo["title"]}')
@@ -180,19 +183,9 @@ class TodoProcessor:
         if not place_arg:
             print('-p/--place argument is required for adding sub items')
         else:
-            all_todos = self._todo_data.get_all_todos()
-            for todo in all_todos:
-                if todo['is_active']:
-                    for index, item in enumerate(todo['items']):
-                        if index == place_arg - 1:
-                            if not item['sub_items']:
-                                item['sub_items'] = [add_arg]
-                            else:
-                                item['sub_items'].append(add_arg)
-                            break
-                    todo['date_mod'] = str(datetime.datetime.now())
-                    break
-            self._todo_data.write_todos(all_todos)
+            self._todo_data.add_todo_sub_item(add_arg, place_arg)
+            print('Todo sub item added successfully.')
+            self.list_todo_items()
 
     def process_new_todo(self, args):
         self.create_new_todo(args.new)
