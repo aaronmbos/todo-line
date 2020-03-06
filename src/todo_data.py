@@ -67,6 +67,24 @@ class TodoData:
             self.write_todos(all_todos)
         return updated_item
 
+    def update_sub_item_status(self, item_idx, sub_idx, status):
+        all_todos = self.get_all_todos()
+        updated_sub = None
+
+        for todo in all_todos:
+            if todo['is_active']:
+                for index, item in enumerate(todo['items']):
+                    if index == item_idx:
+                        sub = item['sub_items'][sub_idx]
+                        sub['status'] = status
+                        updated_sub = sub
+                        break
+                todo['date_mod'] = str(datetime.datetime.now())
+                break
+        if updated_sub:
+            self.write_todos(all_todos)
+        return updated_sub
+    
     def checkout_todo(self, idx):
         all_todos = self.get_all_todos()
         checkedout_todo = None
@@ -152,7 +170,6 @@ class TodoData:
                 break
         self.write_todos(all_todos)
         return True
-
 
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:
