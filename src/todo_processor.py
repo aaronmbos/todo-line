@@ -91,7 +91,7 @@ class TodoProcessor:
             else:
                 print(f'Unable to mark requested item incomplete: {rawArg}')
         except ValueError:
-            print('Argument with ch command must be an integer')
+            print('Argument with uncheck command must be an integer')
 
     def checkout_todo(self, rawIdx):
         try:
@@ -187,6 +187,26 @@ class TodoProcessor:
             print('Todo sub item added successfully.')
             self.list_todo_items()
 
+    def check_sub_item(self, check_arg, place_arg):
+        if not place_arg:
+            print('-p/--place argument is require for checking sub items')
+        else:
+            updated = self._todo_data.update_sub_item_status(int(check_arg) - 1, place_arg - 1, 'completed')
+            if updated:
+                print(f'{updated["desc"]} checked successfully')
+            else:
+                print(f'Unable to check todo sub item {updated["desc"]}')
+
+    def uncheck_sub_item(self, check_arg, place_arg):
+        if not place_arg:
+            print('-p/--place argument is require for checking sub items')
+        else:
+            updated = self._todo_data.update_sub_item_status(int(check_arg) - 1, place_arg - 1, 'incomplete')
+            if updated:
+                print(f'{updated["desc"]} unchecked successfully')
+            else:
+                print(f'Unable to uncheck todo sub item {updated["desc"]}')
+
     def process_new_todo(self, args):
         self.create_new_todo(args.new)
 
@@ -197,7 +217,10 @@ class TodoProcessor:
             self.add_sub_item(args.add, args.place)
 
     def process_check_todo_item(self, args):
-        self.check_todo_item(args.check)
+        if not args.sub:
+            self.check_todo_item(args.check)
+        else:
+            self.check_sub_item(args.check, args.place)
 
     def process_get_list(self, args):
         self.get_list(args.list)
@@ -206,7 +229,10 @@ class TodoProcessor:
         self.checkout_todo(args.checkout)
 
     def process_uncheck(self, args):
-        self.uncheck_todo_item(args.uncheck)
+        if args.sub:
+            self.uncheck_sub_item(args.uncheck, args.place)
+        else:
+            self.uncheck_todo_item(args.uncheck)
 
     def process_delete(self, args):
         if args.delete:

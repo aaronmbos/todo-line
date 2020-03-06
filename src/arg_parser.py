@@ -44,8 +44,8 @@ class ArgParser:
 
         uncheck_cmd = subparsers.add_parser('uncheck', help='Uncheck an item on list based on order')
         uncheck_cmd.add_argument('uncheck')
-        check_cmd.add_argument('-s', '--sub', action='store_true')
-        check_cmd.add_argument('-p', '--place', type=int, help='Argument corresponding to place of the sub item')
+        uncheck_cmd.add_argument('-s', '--sub', action='store_true')
+        uncheck_cmd.add_argument('-p', '--place', type=int, help='Argument corresponding to place of the sub item')
         uncheck_cmd.set_defaults(func=self._todo_processor.process_uncheck)
 
         delete_cmd = subparsers.add_parser('delete', help='Delete a todo list or item. Required argument(s): -p/--place')
