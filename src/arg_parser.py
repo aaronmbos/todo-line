@@ -50,7 +50,7 @@ class ArgParser:
 
         delete_cmd = subparsers.add_parser('delete', help='Delete a todo list or item. Required argument(s): -p/--place')
         delete_cmd.add_argument('delete')
-        delete_cmd.add_argument('-s', '--sub', action='store_true')
+        delete_cmd.add_argument('-s', '--sub', type=int, default=-1)
         delete_cmd.add_argument('-p', '--place', type=int, help='Argument corresponding to place of the sub item')
         delete_cmd.set_defaults(func=self._todo_processor.process_delete)
 

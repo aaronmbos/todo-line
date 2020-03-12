@@ -103,7 +103,21 @@ class TodoProcessor:
                 print(f'Unable to checkout todo number {rawIdx}')
         except ValueError:
             print('Argument with checkout command must be an integer')
-    
+    def delete_sub_item(self, delete_arg, sub_place, delete_place):
+        is_deleted = False
+        try:
+            if self.is_todo_request(delete_arg):
+                print('Action not supported. delete todo cannot be used with --sub')
+            else:
+                is_deleted = self._todo_data.delete_sub_item(delete_place - 1, sub_place - 1)
+        except Exception:
+            is_deleted = False
+
+        if is_deleted:
+            print('Sub item delete successfully')
+        else:
+            print('Unable to delete sub item')
+
     def delete(self, delete_Arg, raw_Idx):
         is_deleted = False
         delete_type = ''
@@ -235,10 +249,12 @@ class TodoProcessor:
             self.uncheck_todo_item(args.uncheck)
 
     def process_delete(self, args):
-        if args.delete:
-            if not args.place:
+        if not args.place:
                 print('Unable to process request: -p/--place is a required argument with delete command')
                 return
+        if args.sub != -1:
+            self.delete_sub_item(args.delete, args.sub, args.place)
+        else:
             self.delete(args.delete, args.place)
 
     def process_insert(self, args):

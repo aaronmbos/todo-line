@@ -123,7 +123,23 @@ class TodoData:
                     is_deleted = False
                 break
         
-        self.write_todos(all_todos)
+        if is_deleted:
+            self.write_todos(all_todos)
+        return is_deleted
+
+    def delete_sub_item(self, item_idx, sub_idx):
+        all_todos = self.get_all_todos()
+        for todo in all_todos:
+            if todo['is_active']:
+                try:
+                    del todo['items'][item_idx]['sub_items'][sub_idx]
+                    todo['date_mod']
+                    is_deleted = True
+                except Exception:
+                    is_deleted = False
+                break
+        if is_deleted:
+            self.write_todos(all_todos)
         return is_deleted
 
     def update_todo(self, idx, title):
