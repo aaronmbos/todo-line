@@ -225,16 +225,16 @@ class TodoProcessor:
         self.create_new_todo(args.new)
 
     def process_add_todo_item(self, args):
-        if not args.sub:
+        if args.sub == -1:
             self.add_todo_item(args.add)
         else:
-            self.add_sub_item(args.add, args.place)
+            self.add_sub_item(args.add, args.sub)
 
     def process_check_todo_item(self, args):
-        if not args.sub:
+        if args.sub == -1:
             self.check_todo_item(args.check)
         else:
-            self.check_sub_item(args.check, args.place)
+            self.check_sub_item(args.check, args.sub)
 
     def process_get_list(self, args):
         self.get_list(args.list)
@@ -243,8 +243,8 @@ class TodoProcessor:
         self.checkout_todo(args.checkout)
 
     def process_uncheck(self, args):
-        if args.sub:
-            self.uncheck_sub_item(args.uncheck, args.place)
+        if args.sub != -1:
+            self.uncheck_sub_item(args.uncheck, args.sub)
         else:
             self.uncheck_todo_item(args.uncheck)
 

@@ -14,10 +14,10 @@
             //"args": ["todo","-l"]
             //"args": ["todo", "--insert", "todo", "--index", "2", "--value", "Work List"]
             //"args": ["todo", "ls", "items"]
-            //"args": ["add", "test2", "--sub", "-p", "2"]
+            //"args": ["add", "test2", "-s", "2"]
             //"args": ["add", "testingtest"]
-            "args": ["list", "items"]
-            // "args": ["uncheck", "2", "--sub", "--place", "1"]
+            //"args": ["list", "items"]
+            "args": ["check", "2", "-s", "2"]
             //"args": ["delete", "item", "--sub", "1", "--place", "2"]
         }
     ]
