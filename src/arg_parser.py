@@ -59,6 +59,7 @@ class ArgParser:
 
         update_cmd = subparsers.add_parser('update', help='Update a todo item in list. Required argument(s): -p/--place, -v/--value')
         update_cmd.add_argument('update')
+        update_cmd.add_argument('-s', '--sub', type=int, default=-1)
         update_cmd.add_argument('-p', '--place', help='Argument corresponding to the place of an item in a todo list or a todo in all todos')
         update_cmd.add_argument('-v', '--value', help='Argument corresponding to the value or a todo or todo item')
         update_cmd.set_defaults(func=self._todo_processor.process_update)
