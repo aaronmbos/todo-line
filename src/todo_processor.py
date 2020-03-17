@@ -221,6 +221,17 @@ class TodoProcessor:
             else:
                 print(f'Unable to uncheck todo sub item {updated["desc"]}')
 
+    def update_sub_item(self, update_arg, place_arg, val_arg, sub_arg):
+        if self.is_todo_request(update_arg):
+            print('Action not supported. update todo cannot be used with --sub option')
+        else:
+            updated = self._todo_data.update_sub_item(int(place_arg) - 1, sub_arg - 1, val_arg)
+
+        if updated:
+            pass
+        else:
+            pass
+
     def process_new_todo(self, args):
         self.create_new_todo(args.new)
 
@@ -267,5 +278,8 @@ class TodoProcessor:
         if not args.place or not args.value:
             print('Unable to process request: --index and --value are required arguments with update command')
             return
-        self.update(args.update, args.place, args.value) 
+        if args.sub == -1:
+            self.update(args.update, args.place, args.value)
+        else:
+            self.update_sub_item(args.update, args.place, args.value, args.sub)
             
