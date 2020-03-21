@@ -13,6 +13,12 @@ todo-line
   - Command: `todo add <todo_item_description>`
   - The item will be appended to the items in the currently checked out list
 
++ __Add sub item to list__
+  - Command: `todo add <item_description> -s/--sub <number_of_item>`
+  - The sub item will be added below the item specified by `-s/--sub` option and indented
+  `[ ] 1. Test`
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`[ ] 2. Test sub`
+
 + __List all todos/todo items__
   - Command: `todo list item(s)`
     * Executing this command will list all of the items in the checked out todo list
@@ -24,16 +30,16 @@ todo-line
   - Command: `todo checkout <number_of_list>`
     * Going forward this will be the list that is affected by commands
 
-+ __Chech/Uncheck list items__
-  - Command: `todo check <number_of_item>`
++ __Chech/Uncheck list items/sub items__
+  - Command: `todo check <number_of_item> [-s/--sub <number_of_sub>]`
     * A checked item will display an `x` between the square brackets when items are listed i.e. `[x] 1. Example item`
-  - Command: `todo uncheck <number_of_item>`
+  - Command: `todo uncheck <number_of_item> [-s/--sub <number_of_sub>]`
     * Unchecking an item will remove the `x` from the square brackets indicating that the item is not complete
 
-+ __Delete a todo list/item__
++ __Delete a todo list/item/sub item__
   - Command: `todo delete todo -p/--place <number_of_todo>`
     * Executing this command will delete the todo list in the place specified by the number
-  - Command: `todo delete item -p/--place <number_of_item>`
+  - Command: `todo delete item -p/--place <number_of_item> [-s/--sub <number_of_sub>]`
     * Executing this command will delete the todo item in the place specified by the number
 
 + __Insert a todo list/item__
@@ -42,8 +48,8 @@ todo-line
   - Command: `todo insert item -p/--place <number_of_item> -v/--value <todo_description>`
     * Executing this command will insert a new todo item into the list of existing items
 
-+ __Update a todo list/item__
++ __Update a todo list/item/sub item__
   - Command: `todo update todo -p/--place <number_of_todo> -v/--value <todo_title>`
     * Executing this command will update an existing todo list in the place and with the value specified
-  - Command: `todo update item -p/--place <number_of_item> -v/--value <todo_description>`
-    * Executing this command will update an existing todo item in the place and with the value specified
+  - Command: `todo update item -p/--place <number_of_item> -v/--value <todo_description> [-s/--sub <number_of_sub>]`
+    * Executing this command will update an existing todo item/sub item in the place and with the value specified
