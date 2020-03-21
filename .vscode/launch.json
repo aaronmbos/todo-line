@@ -17,8 +17,9 @@
             //"args": ["add", "test2", "-s", "2"]
             //"args": ["add", "testingtest"]
             //"args": ["list", "items"]
-            "args": ["check", "2", "-s", "2"]
+            //"args": ["check", "2", "-s", "2"]
             //"args": ["delete", "item", "--sub", "1", "--place", "2"]
+            "args": ["update", "item", "--sub", "1", "--place", "2", "--value", "Update tested"]
         }
     ]
 }

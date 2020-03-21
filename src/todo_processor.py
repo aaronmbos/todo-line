@@ -228,9 +228,9 @@ class TodoProcessor:
             updated = self._todo_data.update_sub_item(int(place_arg) - 1, sub_arg - 1, val_arg)
 
         if updated:
-            pass
+            print('Update successful')
         else:
-            pass
+            print('Error occurred updating sub item')
 
     def process_new_todo(self, args):
         self.create_new_todo(args.new)

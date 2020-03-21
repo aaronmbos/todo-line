@@ -187,6 +187,18 @@ class TodoData:
         self.write_todos(all_todos)
         return True
 
+    def update_sub_item(self, place_idx, sub_idx, val):
+        all_todos = self.get_all_todos()
+        for todo in all_todos:
+            if todo['is_active']:
+                try:
+                    todo['items'][place_idx]['sub_items'][sub_idx]['desc'] = val
+                    todo['date_mod'] = str(datetime.datetime.now())
+                except Exception:
+                    return False
+        self.write_todos(all_todos)
+        return True
+
     def write_todos(self, todos):
         with open(self._todoFileLocation, 'w') as file:
             json.dump(todos, fp=file)
