@@ -16,8 +16,11 @@ todo-line
 + __Add sub item to list__
   - Command: `todo add <item_description> -s/--sub <number_of_item>`
   - The sub item will be added below the item specified by `-s/--sub` option and indented
-  `[ ] 1. Test`
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`[ ] 2. Test sub`
+
+```
+[ ] 1. Test
+    [ ] 2. Test sub
+```
 
 + __List all todos/todo items__
   - Command: `todo list item(s)`
